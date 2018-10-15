@@ -39,5 +39,6 @@ defmodule SlackWebhook do
 
   defp single_url, do: Application.get_env(:slack_webhook, :url, "")
 
-  defp get_content(msg), do: Poison.encode!(%{text: msg})
+  defp get_content(msg) when is_bitstring(msg), do: Poison.encode!(%{text: msg})
+  defp get_content(msg) when is_map(msg), do: Poison.encode!(msg)
 end
